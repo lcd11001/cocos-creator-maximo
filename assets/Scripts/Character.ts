@@ -59,6 +59,16 @@ export class Character extends Component
                 console.log('Roll');
                 this.characterAnim.Roll();
                 break;
+
+            case KeyCode.KEY_Q:
+                console.log('Jump Left');
+                this.characterAnim.JumpLeft();
+                break
+
+            case KeyCode.KEY_E:
+                console.log('Jump Right');
+                this.characterAnim.JumpRight();
+                break;
         }
     }
 

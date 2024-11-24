@@ -8,17 +8,26 @@
     "_layers": [
       {
         "__id__": 1
+      },
+      {
+        "__id__": 80
+      },
+      {
+        "__id__": 90
       }
     ],
     "_variables": {
       "Forward Speed": {
-        "__id__": 88
+        "__id__": 100
       },
       "Trigger Roll": {
-        "__id__": 89
+        "__id__": 101
       },
       "Trigger Jump": {
-        "__id__": 90
+        "__id__": 102
+      },
+      "Trigger Left": {
+        "__id__": 103
       }
     }
   },
@@ -60,30 +69,24 @@
         "__id__": 14
       },
       {
-        "__id__": 18
-      },
-      {
-        "__id__": 22
-      },
-      {
-        "__id__": 33
+        "__id__": 25
       }
     ],
     "_transitions": [
       {
-        "__id__": 73
+        "__id__": 65
       },
       {
-        "__id__": 74
+        "__id__": 66
       },
       {
-        "__id__": 77
+        "__id__": 69
       },
       {
-        "__id__": 80
+        "__id__": 72
       },
       {
-        "__id__": 84
+        "__id__": 76
       }
     ],
     "_entryState": {
@@ -124,8 +127,8 @@
       "name": "",
       "id": "3572e0b7-d972-451c-9cc5-2da6a9160b5e",
       "clone": null,
-      "centerX": -82.58823529411768,
-      "centerY": -76.23529411764707
+      "centerX": 228.41176470588232,
+      "centerY": -17.235294117647072
     },
     "name": "Any"
   },
@@ -177,12 +180,12 @@
     "__type__": "cc.animation.Motion",
     "__editorExtras__": {
       "name": "",
-      "id": "d9146279-7b9a-4978-bcfd-563e9d87250b",
+      "id": "025e2aea-681f-401d-9f32-23f995ad105e",
       "clone": null,
-      "centerX": -286.50984461167286,
-      "centerY": 96.83692842371323
+      "centerX": -282.9804328469669,
+      "centerY": -173.9866009880516
     },
-    "name": "Turn Left",
+    "name": "Roll",
     "_components": [],
     "motion": {
       "__id__": 11
@@ -195,94 +198,6 @@
     },
     "transitionOutEventBinding": {
       "__id__": 13
-    }
-  },
-  {
-    "__type__": "cc.animation.ClipMotion",
-    "__editorExtras__": {
-      "name": "",
-      "id": "8f9509d6-c2b8-44c7-b5f9-2cc1d9f75c74",
-      "clone": null
-    },
-    "clip": {
-      "__uuid__": "e05e6cbf-81de-404f-907b-94745cb47cce@18d6f",
-      "__expectedType__": "cc.AnimationClip"
-    }
-  },
-  {
-    "__type__": "cc.animation.AnimationGraphEventBinding",
-    "methodName": ""
-  },
-  {
-    "__type__": "cc.animation.AnimationGraphEventBinding",
-    "methodName": ""
-  },
-  {
-    "__type__": "cc.animation.Motion",
-    "__editorExtras__": {
-      "name": "",
-      "id": "58a1ded1-6b43-499b-a1d7-bdd561070625",
-      "clone": null,
-      "centerX": -280.62749167049634,
-      "centerY": 160.60163430606616
-    },
-    "name": "Turn Right",
-    "_components": [],
-    "motion": {
-      "__id__": 15
-    },
-    "speed": 1,
-    "speedMultiplier": "",
-    "speedMultiplierEnabled": false,
-    "transitionInEventBinding": {
-      "__id__": 16
-    },
-    "transitionOutEventBinding": {
-      "__id__": 17
-    }
-  },
-  {
-    "__type__": "cc.animation.ClipMotion",
-    "__editorExtras__": {
-      "name": "",
-      "id": "92907238-47fe-415c-8fd9-159f0ab2c979",
-      "clone": null
-    },
-    "clip": {
-      "__uuid__": "25f433cc-4563-4e84-9e4c-8615abbeeb72@18d6f",
-      "__expectedType__": "cc.AnimationClip"
-    }
-  },
-  {
-    "__type__": "cc.animation.AnimationGraphEventBinding",
-    "methodName": ""
-  },
-  {
-    "__type__": "cc.animation.AnimationGraphEventBinding",
-    "methodName": ""
-  },
-  {
-    "__type__": "cc.animation.Motion",
-    "__editorExtras__": {
-      "name": "",
-      "id": "025e2aea-681f-401d-9f32-23f995ad105e",
-      "clone": null,
-      "centerX": -282.9804328469669,
-      "centerY": -173.9866009880516
-    },
-    "name": "Roll",
-    "_components": [],
-    "motion": {
-      "__id__": 19
-    },
-    "speed": 1,
-    "speedMultiplier": "",
-    "speedMultiplierEnabled": false,
-    "transitionInEventBinding": {
-      "__id__": 20
-    },
-    "transitionOutEventBinding": {
-      "__id__": 21
     }
   },
   {
@@ -317,16 +232,16 @@
     "name": "Blend 1D",
     "_components": [],
     "motion": {
-      "__id__": 23
+      "__id__": 15
     },
     "speed": 1,
     "speedMultiplier": "",
     "speedMultiplierEnabled": false,
     "transitionInEventBinding": {
-      "__id__": 31
+      "__id__": 23
     },
     "transitionOutEventBinding": {
-      "__id__": 32
+      "__id__": 24
     }
   },
   {
@@ -342,23 +257,23 @@
     "name": "Blend 1D",
     "_items": [
       {
-        "__id__": 24
+        "__id__": 16
       },
       {
-        "__id__": 26
+        "__id__": 18
       },
       {
-        "__id__": 28
+        "__id__": 20
       }
     ],
     "param": {
-      "__id__": 30
+      "__id__": 22
     }
   },
   {
     "__type__": "cc.animation.AnimationBlend1DItem",
     "motion": {
-      "__id__": 25
+      "__id__": 17
     },
     "threshold": 0
   },
@@ -379,7 +294,7 @@
   {
     "__type__": "cc.animation.AnimationBlend1DItem",
     "motion": {
-      "__id__": 27
+      "__id__": 19
     },
     "threshold": 0.2
   },
@@ -400,7 +315,7 @@
   {
     "__type__": "cc.animation.AnimationBlend1DItem",
     "motion": {
-      "__id__": 29
+      "__id__": 21
     },
     "threshold": 0.5
   },
@@ -443,7 +358,7 @@
     "name": "State Machine - Hit",
     "_components": [],
     "_stateMachine": {
-      "__id__": 34
+      "__id__": 26
     }
   },
   {
@@ -455,13 +370,19 @@
     },
     "_states": [
       {
-        "__id__": 35
+        "__id__": 27
       },
       {
-        "__id__": 36
+        "__id__": 28
       },
       {
-        "__id__": 37
+        "__id__": 29
+      },
+      {
+        "__id__": 30
+      },
+      {
+        "__id__": 34
       },
       {
         "__id__": 38
@@ -477,45 +398,39 @@
       },
       {
         "__id__": 54
-      },
-      {
-        "__id__": 58
-      },
-      {
-        "__id__": 62
       }
     ],
     "_transitions": [
       {
-        "__id__": 66
+        "__id__": 58
       },
       {
-        "__id__": 67
+        "__id__": 59
       },
       {
-        "__id__": 68
+        "__id__": 60
       },
       {
-        "__id__": 69
+        "__id__": 61
       },
       {
-        "__id__": 70
+        "__id__": 62
       },
       {
-        "__id__": 71
+        "__id__": 63
       },
       {
-        "__id__": 72
+        "__id__": 64
       }
     ],
     "_entryState": {
-      "__id__": 35
+      "__id__": 27
     },
     "_exitState": {
-      "__id__": 36
+      "__id__": 28
     },
     "_anyState": {
-      "__id__": 37
+      "__id__": 29
     }
   },
   {
@@ -563,16 +478,16 @@
     "name": "Hit Leg",
     "_components": [],
     "motion": {
-      "__id__": 39
+      "__id__": 31
     },
     "speed": 1,
     "speedMultiplier": "",
     "speedMultiplierEnabled": false,
     "transitionInEventBinding": {
-      "__id__": 40
+      "__id__": 32
     },
     "transitionOutEventBinding": {
-      "__id__": 41
+      "__id__": 33
     }
   },
   {
@@ -607,16 +522,16 @@
     "name": "Hit Head Left",
     "_components": [],
     "motion": {
-      "__id__": 43
+      "__id__": 35
     },
     "speed": 1,
     "speedMultiplier": "",
     "speedMultiplierEnabled": false,
     "transitionInEventBinding": {
-      "__id__": 44
+      "__id__": 36
     },
     "transitionOutEventBinding": {
-      "__id__": 45
+      "__id__": 37
     }
   },
   {
@@ -651,16 +566,16 @@
     "name": "Hit Head Right",
     "_components": [],
     "motion": {
-      "__id__": 47
+      "__id__": 39
     },
     "speed": 1,
     "speedMultiplier": "",
     "speedMultiplierEnabled": false,
     "transitionInEventBinding": {
-      "__id__": 48
+      "__id__": 40
     },
     "transitionOutEventBinding": {
-      "__id__": 49
+      "__id__": 41
     }
   },
   {
@@ -695,16 +610,16 @@
     "name": "Hit By Train",
     "_components": [],
     "motion": {
-      "__id__": 51
+      "__id__": 43
     },
     "speed": 1,
     "speedMultiplier": "",
     "speedMultiplierEnabled": false,
     "transitionInEventBinding": {
-      "__id__": 52
+      "__id__": 44
     },
     "transitionOutEventBinding": {
-      "__id__": 53
+      "__id__": 45
     }
   },
   {
@@ -739,16 +654,16 @@
     "name": "Hit Body",
     "_components": [],
     "motion": {
-      "__id__": 55
+      "__id__": 47
     },
     "speed": 1,
     "speedMultiplier": "",
     "speedMultiplierEnabled": false,
     "transitionInEventBinding": {
-      "__id__": 56
+      "__id__": 48
     },
     "transitionOutEventBinding": {
-      "__id__": 57
+      "__id__": 49
     }
   },
   {
@@ -783,16 +698,16 @@
     "name": "Hit Shoulder Left",
     "_components": [],
     "motion": {
-      "__id__": 59
+      "__id__": 51
     },
     "speed": 1,
     "speedMultiplier": "",
     "speedMultiplierEnabled": false,
     "transitionInEventBinding": {
-      "__id__": 60
+      "__id__": 52
     },
     "transitionOutEventBinding": {
-      "__id__": 61
+      "__id__": 53
     }
   },
   {
@@ -827,16 +742,16 @@
     "name": "Hit Shoulder Right",
     "_components": [],
     "motion": {
-      "__id__": 63
+      "__id__": 55
     },
     "speed": 1,
     "speedMultiplier": "",
     "speedMultiplierEnabled": false,
     "transitionInEventBinding": {
-      "__id__": 64
+      "__id__": 56
     },
     "transitionOutEventBinding": {
-      "__id__": 65
+      "__id__": 57
     }
   },
   {
@@ -863,10 +778,10 @@
     "__type__": "cc.animation.Transition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 35
+      "__id__": 27
     },
     "to": {
-      "__id__": 42
+      "__id__": 34
     },
     "conditions": []
   },
@@ -874,29 +789,7 @@
     "__type__": "cc.animation.Transition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 35
-    },
-    "to": {
-      "__id__": 46
-    },
-    "conditions": []
-  },
-  {
-    "__type__": "cc.animation.Transition",
-    "__editorExtras__": null,
-    "from": {
-      "__id__": 35
-    },
-    "to": {
-      "__id__": 50
-    },
-    "conditions": []
-  },
-  {
-    "__type__": "cc.animation.Transition",
-    "__editorExtras__": null,
-    "from": {
-      "__id__": 35
+      "__id__": 27
     },
     "to": {
       "__id__": 38
@@ -907,7 +800,51 @@
     "__type__": "cc.animation.Transition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 35
+      "__id__": 27
+    },
+    "to": {
+      "__id__": 42
+    },
+    "conditions": []
+  },
+  {
+    "__type__": "cc.animation.Transition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 27
+    },
+    "to": {
+      "__id__": 30
+    },
+    "conditions": []
+  },
+  {
+    "__type__": "cc.animation.Transition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 27
+    },
+    "to": {
+      "__id__": 46
+    },
+    "conditions": []
+  },
+  {
+    "__type__": "cc.animation.Transition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 27
+    },
+    "to": {
+      "__id__": 50
+    },
+    "conditions": []
+  },
+  {
+    "__type__": "cc.animation.Transition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 27
     },
     "to": {
       "__id__": 54
@@ -918,32 +855,10 @@
     "__type__": "cc.animation.Transition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 35
-    },
-    "to": {
-      "__id__": 58
-    },
-    "conditions": []
-  },
-  {
-    "__type__": "cc.animation.Transition",
-    "__editorExtras__": null,
-    "from": {
-      "__id__": 35
-    },
-    "to": {
-      "__id__": 62
-    },
-    "conditions": []
-  },
-  {
-    "__type__": "cc.animation.Transition",
-    "__editorExtras__": null,
-    "from": {
       "__id__": 3
     },
     "to": {
-      "__id__": 22
+      "__id__": 14
     },
     "conditions": []
   },
@@ -951,19 +866,19 @@
     "__type__": "cc.animation.AnimationTransition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 18
+      "__id__": 10
     },
     "to": {
-      "__id__": 22
+      "__id__": 14
     },
     "conditions": [],
     "destinationStart": 0,
     "relativeDestinationStart": false,
     "startEventBinding": {
-      "__id__": 75
+      "__id__": 67
     },
     "endEventBinding": {
-      "__id__": 76
+      "__id__": 68
     },
     "duration": 0.1,
     "relativeDuration": false,
@@ -985,16 +900,16 @@
       "__id__": 6
     },
     "to": {
-      "__id__": 22
+      "__id__": 14
     },
     "conditions": [],
     "destinationStart": 0,
     "relativeDestinationStart": false,
     "startEventBinding": {
-      "__id__": 78
+      "__id__": 70
     },
     "endEventBinding": {
-      "__id__": 79
+      "__id__": 71
     },
     "duration": 0.1,
     "relativeDuration": false,
@@ -1013,23 +928,23 @@
     "__type__": "cc.animation.AnimationTransition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 22
+      "__id__": 14
     },
     "to": {
       "__id__": 6
     },
     "conditions": [
       {
-        "__id__": 81
+        "__id__": 73
       }
     ],
     "destinationStart": 0,
     "relativeDestinationStart": false,
     "startEventBinding": {
-      "__id__": 82
+      "__id__": 74
     },
     "endEventBinding": {
-      "__id__": 83
+      "__id__": 75
     },
     "duration": 0.1,
     "relativeDuration": false,
@@ -1052,23 +967,23 @@
     "__type__": "cc.animation.AnimationTransition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 22
+      "__id__": 14
     },
     "to": {
-      "__id__": 18
+      "__id__": 10
     },
     "conditions": [
       {
-        "__id__": 85
+        "__id__": 77
       }
     ],
     "destinationStart": 0,
     "relativeDestinationStart": false,
     "startEventBinding": {
-      "__id__": 86
+      "__id__": 78
     },
     "endEventBinding": {
-      "__id__": 87
+      "__id__": 79
     },
     "duration": 0.1,
     "relativeDuration": false,
@@ -1088,9 +1003,289 @@
     "methodName": ""
   },
   {
+    "__type__": "cc.animation.Layer",
+    "_stateMachine": {
+      "__id__": 81
+    },
+    "name": "Layer Turn Left",
+    "weight": 0,
+    "mask": {
+      "__uuid__": "3e41c3d9-918a-40aa-9f24-8af855a0e4ec",
+      "__expectedType__": "cc.animation.AnimationMask"
+    },
+    "additive": false,
+    "_stashes": {}
+  },
+  {
+    "__type__": "cc.animation.StateMachine",
+    "__editorExtras__": {
+      "name": "",
+      "id": "a9764a51-483e-4787-9c46-80c9ce5f3d9d",
+      "clone": null
+    },
+    "_states": [
+      {
+        "__id__": 82
+      },
+      {
+        "__id__": 83
+      },
+      {
+        "__id__": 84
+      },
+      {
+        "__id__": 85
+      }
+    ],
+    "_transitions": [
+      {
+        "__id__": 89
+      }
+    ],
+    "_entryState": {
+      "__id__": 82
+    },
+    "_exitState": {
+      "__id__": 83
+    },
+    "_anyState": {
+      "__id__": 84
+    }
+  },
+  {
+    "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "name": "",
+      "id": "af4759e2-c2ca-4ee7-98f9-7539e65ef0fe",
+      "clone": null,
+      "centerX": -207,
+      "centerY": -22
+    },
+    "name": "Entry"
+  },
+  {
+    "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "name": "",
+      "id": "44eaa7c9-809e-46dd-a18d-1490a8b67b76",
+      "clone": null,
+      "centerX": 125,
+      "centerY": 0
+    },
+    "name": "Exit"
+  },
+  {
+    "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "name": "",
+      "id": "282d8c15-18c5-44b5-96c4-f40336c592f8",
+      "clone": null,
+      "centerX": 144,
+      "centerY": -10
+    },
+    "name": "Any"
+  },
+  {
+    "__type__": "cc.animation.Motion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "0f9d8beb-7631-4c80-9d58-e453400e3848",
+      "clone": null,
+      "centerX": -19.3333740234375,
+      "centerY": -37.3333740234375
+    },
+    "name": "Turn Left",
+    "_components": [],
+    "motion": {
+      "__id__": 86
+    },
+    "speed": 1,
+    "speedMultiplier": "",
+    "speedMultiplierEnabled": false,
+    "transitionInEventBinding": {
+      "__id__": 87
+    },
+    "transitionOutEventBinding": {
+      "__id__": 88
+    }
+  },
+  {
+    "__type__": "cc.animation.ClipMotion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "c9fb9e77-d78f-4739-b77a-d6ab54a715b3",
+      "clone": null
+    },
+    "clip": {
+      "__uuid__": "e05e6cbf-81de-404f-907b-94745cb47cce@18d6f",
+      "__expectedType__": "cc.AnimationClip"
+    }
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.Transition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 82
+    },
+    "to": {
+      "__id__": 85
+    },
+    "conditions": []
+  },
+  {
+    "__type__": "cc.animation.Layer",
+    "_stateMachine": {
+      "__id__": 91
+    },
+    "name": "Layer Turn Right",
+    "weight": 0,
+    "mask": {
+      "__uuid__": "922be014-d2c0-4548-869f-90673788e218",
+      "__expectedType__": "cc.animation.AnimationMask"
+    },
+    "additive": false,
+    "_stashes": {}
+  },
+  {
+    "__type__": "cc.animation.StateMachine",
+    "__editorExtras__": {
+      "name": "",
+      "id": "1c0197ab-389b-4dde-bb86-9443fbe27e46",
+      "clone": null
+    },
+    "_states": [
+      {
+        "__id__": 92
+      },
+      {
+        "__id__": 93
+      },
+      {
+        "__id__": 94
+      },
+      {
+        "__id__": 95
+      }
+    ],
+    "_transitions": [
+      {
+        "__id__": 99
+      }
+    ],
+    "_entryState": {
+      "__id__": 92
+    },
+    "_exitState": {
+      "__id__": 93
+    },
+    "_anyState": {
+      "__id__": 94
+    }
+  },
+  {
+    "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "name": "",
+      "id": "592bec21-978b-495d-b17f-505a025d0354",
+      "clone": null,
+      "centerX": -166,
+      "centerY": 0
+    },
+    "name": "Entry"
+  },
+  {
+    "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "name": "",
+      "id": "ecf73d92-5b3b-4368-9cbc-79b972427efc",
+      "clone": null,
+      "centerX": 125,
+      "centerY": 0
+    },
+    "name": "Exit"
+  },
+  {
+    "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "name": "",
+      "id": "26d0565e-0396-4475-8668-0182857b4d6b",
+      "clone": null,
+      "centerX": 125,
+      "centerY": 0
+    },
+    "name": "Any"
+  },
+  {
+    "__type__": "cc.animation.Motion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "78a03708-08d2-4819-917f-ecb8cf36d84c",
+      "clone": null,
+      "centerX": -7.3333740234375,
+      "centerY": -2.3333740234375
+    },
+    "name": "Clip Motion",
+    "_components": [],
+    "motion": {
+      "__id__": 96
+    },
+    "speed": 1,
+    "speedMultiplier": "",
+    "speedMultiplierEnabled": false,
+    "transitionInEventBinding": {
+      "__id__": 97
+    },
+    "transitionOutEventBinding": {
+      "__id__": 98
+    }
+  },
+  {
+    "__type__": "cc.animation.ClipMotion",
+    "__editorExtras__": {
+      "name": "",
+      "id": "51c183fa-6869-49b0-96f3-ca3cb71b4a9d",
+      "clone": null
+    },
+    "clip": {
+      "__uuid__": "25f433cc-4563-4e84-9e4c-8615abbeeb72@18d6f",
+      "__expectedType__": "cc.AnimationClip"
+    }
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.AnimationGraphEventBinding",
+    "methodName": ""
+  },
+  {
+    "__type__": "cc.animation.Transition",
+    "__editorExtras__": null,
+    "from": {
+      "__id__": 92
+    },
+    "to": {
+      "__id__": 95
+    },
+    "conditions": []
+  },
+  {
     "__type__": "cc.animation.PlainVariable",
     "_type": 0,
     "_value": 0
+  },
+  {
+    "__type__": "cc.animation.TriggerVariable",
+    "_flags": 0
   },
   {
     "__type__": "cc.animation.TriggerVariable",
