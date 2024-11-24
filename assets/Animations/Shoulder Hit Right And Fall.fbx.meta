@@ -2,24 +2,24 @@
   "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
-  "uuid": "c737c47c-10d4-4fe3-b923-3540c88167f4",
+  "uuid": "d57eed5b-172b-4cb0-a5d2-8357e1ab4111",
   "files": [
     "__original-animation-0.cconb"
   ],
   "subMetas": {
     "18d6f": {
       "importer": "gltf-animation",
-      "uuid": "c737c47c-10d4-4fe3-b923-3540c88167f4@18d6f",
+      "uuid": "d57eed5b-172b-4cb0-a5d2-8357e1ab4111@18d6f",
       "displayName": "",
       "id": "18d6f",
-      "name": "Injured Right.animation",
+      "name": "Hit Shoulder Right.animation",
       "userData": {
         "gltfIndex": 0,
         "wrapMode": 2,
         "sample": 30,
         "span": {
           "from": 0,
-          "to": 0.5333333611488342
+          "to": 3.0999999046325684
         },
         "events": []
       },
@@ -30,12 +30,12 @@
       ],
       "subMetas": {}
     },
-    "346ad": {
+    "0c3ee": {
       "importer": "gltf-scene",
-      "uuid": "c737c47c-10d4-4fe3-b923-3540c88167f4@346ad",
+      "uuid": "d57eed5b-172b-4cb0-a5d2-8357e1ab4111@0c3ee",
       "displayName": "",
-      "id": "346ad",
-      "name": "Injured Run Backwards Right Turn.prefab",
+      "id": "0c3ee",
+      "name": "Shoulder Hit Right And Fall.prefab",
       "userData": {
         "gltfIndex": 0
       },
@@ -55,13 +55,13 @@
     "animationImportSettings": [
       {
         "name": "mixamo.com",
-        "duration": 0.5333333611488342,
+        "duration": 3.0999999046325684,
         "fps": 30,
         "splits": [
           {
-            "name": "Injured Right",
+            "name": "Hit Shoulder Right",
             "from": 0,
-            "to": 0.5333333611488342,
+            "to": 3.0999999046325684,
             "wrapMode": 2,
             "previousId": "18d6f"
           }
@@ -92,7 +92,7 @@
       "textures": [],
       "materials": [],
       "scenes": [
-        "c737c47c-10d4-4fe3-b923-3540c88167f4@346ad"
+        "d57eed5b-172b-4cb0-a5d2-8357e1ab4111@0c3ee"
       ]
     }
   }

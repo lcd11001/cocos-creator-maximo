@@ -2,24 +2,24 @@
   "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
-  "uuid": "8530cc67-a5d4-42ef-b8d1-ad2c69f67de0",
+  "uuid": "cfebf109-1907-4f72-9f4c-ad6d2306e576",
   "files": [
     "__original-animation-0.cconb"
   ],
   "subMetas": {
     "18d6f": {
       "importer": "gltf-animation",
-      "uuid": "8530cc67-a5d4-42ef-b8d1-ad2c69f67de0@18d6f",
+      "uuid": "cfebf109-1907-4f72-9f4c-ad6d2306e576@18d6f",
       "displayName": "",
       "id": "18d6f",
-      "name": "Hit Body.animation",
+      "name": "Hit Head Right.animation",
       "userData": {
         "gltfIndex": 0,
         "wrapMode": 2,
         "sample": 30,
         "span": {
           "from": 0,
-          "to": 3.3333332538604736
+          "to": 3.299999952316284
         },
         "events": []
       },
@@ -30,12 +30,12 @@
       ],
       "subMetas": {}
     },
-    "ce077": {
+    "e5253": {
       "importer": "gltf-scene",
-      "uuid": "8530cc67-a5d4-42ef-b8d1-ad2c69f67de0@ce077",
+      "uuid": "cfebf109-1907-4f72-9f4c-ad6d2306e576@e5253",
       "displayName": "",
-      "id": "ce077",
-      "name": "Stumble Backwards.prefab",
+      "id": "e5253",
+      "name": "Hit On Side Of Head Right.prefab",
       "userData": {
         "gltfIndex": 0
       },
@@ -55,13 +55,13 @@
     "animationImportSettings": [
       {
         "name": "mixamo.com",
-        "duration": 3.3333332538604736,
+        "duration": 3.299999952316284,
         "fps": 30,
         "splits": [
           {
-            "name": "Hit Body",
+            "name": "Hit Head Right",
             "from": 0,
-            "to": 3.3333332538604736,
+            "to": 3.299999952316284,
             "wrapMode": 2,
             "previousId": "18d6f"
           }
@@ -92,7 +92,7 @@
       "textures": [],
       "materials": [],
       "scenes": [
-        "8530cc67-a5d4-42ef-b8d1-ad2c69f67de0@ce077"
+        "cfebf109-1907-4f72-9f4c-ad6d2306e576@e5253"
       ]
     }
   }

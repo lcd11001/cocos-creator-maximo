@@ -2,40 +2,17 @@
   "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
-  "uuid": "34f9eed5-ff08-4534-8fe0-1a905d4757f6",
+  "uuid": "f8beaed3-871c-4afb-af91-e0364045aa05",
   "files": [
     "__original-animation-0.cconb"
   ],
   "subMetas": {
-    "18d6f": {
-      "importer": "gltf-animation",
-      "uuid": "34f9eed5-ff08-4534-8fe0-1a905d4757f6@18d6f",
-      "displayName": "",
-      "id": "18d6f",
-      "name": "Fall.animation",
-      "userData": {
-        "gltfIndex": 0,
-        "wrapMode": 2,
-        "sample": 30,
-        "span": {
-          "from": 0,
-          "to": 2.5333333015441895
-        },
-        "events": []
-      },
-      "ver": "1.0.17",
-      "imported": true,
-      "files": [
-        ".cconb"
-      ],
-      "subMetas": {}
-    },
-    "7311f": {
+    "79072": {
       "importer": "gltf-scene",
-      "uuid": "34f9eed5-ff08-4534-8fe0-1a905d4757f6@7311f",
+      "uuid": "f8beaed3-871c-4afb-af91-e0364045aa05@79072",
       "displayName": "",
-      "id": "7311f",
-      "name": "Fall Flat.prefab",
+      "id": "79072",
+      "name": "Walking.prefab",
       "userData": {
         "gltfIndex": 0
       },
@@ -43,6 +20,29 @@
       "imported": true,
       "files": [
         ".json"
+      ],
+      "subMetas": {}
+    },
+    "18d6f": {
+      "importer": "gltf-animation",
+      "uuid": "f8beaed3-871c-4afb-af91-e0364045aa05@18d6f",
+      "displayName": "",
+      "id": "18d6f",
+      "name": "Walking.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 1.0333333015441895
+        },
+        "events": []
+      },
+      "ver": "1.0.17",
+      "imported": true,
+      "files": [
+        ".cconb"
       ],
       "subMetas": {}
     }
@@ -55,13 +55,13 @@
     "animationImportSettings": [
       {
         "name": "mixamo.com",
-        "duration": 2.5333333015441895,
+        "duration": 1.0333333015441895,
         "fps": 30,
         "splits": [
           {
-            "name": "Fall",
+            "name": "Walking",
             "from": 0,
-            "to": 2.5333333015441895,
+            "to": 1.0333333015441895,
             "wrapMode": 2,
             "previousId": "18d6f"
           }
@@ -92,7 +92,7 @@
       "textures": [],
       "materials": [],
       "scenes": [
-        "34f9eed5-ff08-4534-8fe0-1a905d4757f6@7311f"
+        "f8beaed3-871c-4afb-af91-e0364045aa05@79072"
       ]
     }
   }

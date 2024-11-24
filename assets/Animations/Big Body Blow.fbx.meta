@@ -2,24 +2,24 @@
   "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
-  "uuid": "cfebf109-1907-4f72-9f4c-ad6d2306e576",
+  "uuid": "be3d23da-2e94-4922-a3f8-b61c9fddf7cd",
   "files": [
     "__original-animation-0.cconb"
   ],
   "subMetas": {
     "18d6f": {
       "importer": "gltf-animation",
-      "uuid": "cfebf109-1907-4f72-9f4c-ad6d2306e576@18d6f",
+      "uuid": "be3d23da-2e94-4922-a3f8-b61c9fddf7cd@18d6f",
       "displayName": "",
       "id": "18d6f",
-      "name": "Hit On Head.animation",
+      "name": "Hit By Train.animation",
       "userData": {
         "gltfIndex": 0,
         "wrapMode": 2,
         "sample": 30,
         "span": {
           "from": 0,
-          "to": 3.299999952316284
+          "to": 2.0999999046325684
         },
         "events": []
       },
@@ -30,12 +30,12 @@
       ],
       "subMetas": {}
     },
-    "e5253": {
+    "8d1a2": {
       "importer": "gltf-scene",
-      "uuid": "cfebf109-1907-4f72-9f4c-ad6d2306e576@e5253",
+      "uuid": "be3d23da-2e94-4922-a3f8-b61c9fddf7cd@8d1a2",
       "displayName": "",
-      "id": "e5253",
-      "name": "Hit On Side Of Head.prefab",
+      "id": "8d1a2",
+      "name": "Big Body Blow.prefab",
       "userData": {
         "gltfIndex": 0
       },
@@ -55,13 +55,13 @@
     "animationImportSettings": [
       {
         "name": "mixamo.com",
-        "duration": 3.299999952316284,
+        "duration": 2.0999999046325684,
         "fps": 30,
         "splits": [
           {
-            "name": "Hit On Head",
+            "name": "Hit By Train",
             "from": 0,
-            "to": 3.299999952316284,
+            "to": 2.0999999046325684,
             "wrapMode": 2,
             "previousId": "18d6f"
           }
@@ -92,7 +92,7 @@
       "textures": [],
       "materials": [],
       "scenes": [
-        "cfebf109-1907-4f72-9f4c-ad6d2306e576@e5253"
+        "be3d23da-2e94-4922-a3f8-b61c9fddf7cd@8d1a2"
       ]
     }
   }

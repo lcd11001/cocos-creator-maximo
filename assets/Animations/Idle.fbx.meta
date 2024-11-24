@@ -2,24 +2,24 @@
   "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
-  "uuid": "56859156-090e-408e-a831-0fb8182985c1",
+  "uuid": "6ee67800-0eec-4fb2-a730-8331f366e8be",
   "files": [
     "__original-animation-0.cconb"
   ],
   "subMetas": {
     "18d6f": {
       "importer": "gltf-animation",
-      "uuid": "56859156-090e-408e-a831-0fb8182985c1@18d6f",
+      "uuid": "6ee67800-0eec-4fb2-a730-8331f366e8be@18d6f",
       "displayName": "",
       "id": "18d6f",
-      "name": "Injured Left.animation",
+      "name": "Idle.animation",
       "userData": {
         "gltfIndex": 0,
         "wrapMode": 2,
         "sample": 30,
         "span": {
           "from": 0,
-          "to": 0.5333333611488342
+          "to": 1.9666666984558105
         },
         "events": []
       },
@@ -30,12 +30,12 @@
       ],
       "subMetas": {}
     },
-    "b4279": {
+    "503de": {
       "importer": "gltf-scene",
-      "uuid": "56859156-090e-408e-a831-0fb8182985c1@b4279",
+      "uuid": "6ee67800-0eec-4fb2-a730-8331f366e8be@503de",
       "displayName": "",
-      "id": "b4279",
-      "name": "Injured Run Backwards Left Turn.prefab",
+      "id": "503de",
+      "name": "Idle.prefab",
       "userData": {
         "gltfIndex": 0
       },
@@ -55,13 +55,13 @@
     "animationImportSettings": [
       {
         "name": "mixamo.com",
-        "duration": 0.5333333611488342,
+        "duration": 1.9666666984558105,
         "fps": 30,
         "splits": [
           {
-            "name": "Injured Left",
+            "name": "Idle",
             "from": 0,
-            "to": 0.5333333611488342,
+            "to": 1.9666666984558105,
             "wrapMode": 2,
             "previousId": "18d6f"
           }
@@ -92,7 +92,7 @@
       "textures": [],
       "materials": [],
       "scenes": [
-        "56859156-090e-408e-a831-0fb8182985c1@b4279"
+        "6ee67800-0eec-4fb2-a730-8331f366e8be@503de"
       ]
     }
   }
