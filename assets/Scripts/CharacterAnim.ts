@@ -10,7 +10,12 @@ export class CharacterAnim extends Component
 
     public Jump(): void
     {
-        this.animController.setValue('isJump', true);
+        this.animController.setValue('Trigger Jump', true);
+    }
+
+    public Roll(): void
+    {
+        this.animController.setValue('Trigger Roll', true);
     }
 
 }

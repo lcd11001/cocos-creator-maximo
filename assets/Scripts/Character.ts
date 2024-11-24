@@ -50,7 +50,14 @@ export class Character extends Component
                 this.velocity.x = 1;
                 break;
             case KeyCode.SPACE:
+                console.log('Jump');
                 this.characterAnim.Jump();
+                break;
+
+
+            case KeyCode.KEY_R:
+                console.log('Roll');
+                this.characterAnim.Roll();
                 break;
         }
     }

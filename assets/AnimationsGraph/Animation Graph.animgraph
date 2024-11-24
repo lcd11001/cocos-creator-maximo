@@ -17,7 +17,7 @@
       "Trigger Roll": {
         "__id__": 89
       },
-      "Trigger Jummp": {
+      "Trigger Jump": {
         "__id__": 90
       }
     }
@@ -77,13 +77,13 @@
         "__id__": 74
       },
       {
-        "__id__": 78
+        "__id__": 77
       },
       {
-        "__id__": 81
+        "__id__": 80
       },
       {
-        "__id__": 85
+        "__id__": 84
       }
     ],
     "_entryState": {
@@ -124,8 +124,8 @@
       "name": "",
       "id": "3572e0b7-d972-451c-9cc5-2da6a9160b5e",
       "clone": null,
-      "centerX": 165.41176470588232,
-      "centerY": -82.23529411764707
+      "centerX": -82.58823529411768,
+      "centerY": -76.23529411764707
     },
     "name": "Any"
   },
@@ -437,8 +437,8 @@
       "name": "State Machine - Hit",
       "id": "b9659705-f2e2-4d6e-8e03-2a57af7a87b2",
       "clone": null,
-      "centerX": -22.362713982077366,
-      "centerY": -81.67560173483469
+      "centerX": 85.63728601792263,
+      "centerY": -65.67560173483469
     },
     "name": "State Machine - Hit",
     "_components": [],
@@ -951,32 +951,24 @@
     "__type__": "cc.animation.AnimationTransition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 22
-    },
-    "to": {
       "__id__": 18
     },
-    "conditions": [
-      {
-        "__id__": 75
-      }
-    ],
+    "to": {
+      "__id__": 22
+    },
+    "conditions": [],
     "destinationStart": 0,
     "relativeDestinationStart": false,
     "startEventBinding": {
+      "__id__": 75
+    },
+    "endEventBinding": {
       "__id__": 76
     },
-    "endEventBinding": {
-      "__id__": 77
-    },
-    "duration": 0.3,
+    "duration": 0.1,
     "relativeDuration": false,
     "exitConditionEnabled": true,
     "_exitCondition": 1
-  },
-  {
-    "__type__": "cc.animation.TriggerCondition",
-    "trigger": "Trigger Roll"
   },
   {
     "__type__": "cc.animation.AnimationGraphEventBinding",
@@ -990,7 +982,7 @@
     "__type__": "cc.animation.AnimationTransition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 18
+      "__id__": 6
     },
     "to": {
       "__id__": 22
@@ -999,12 +991,12 @@
     "destinationStart": 0,
     "relativeDestinationStart": false,
     "startEventBinding": {
-      "__id__": 79
+      "__id__": 78
     },
     "endEventBinding": {
-      "__id__": 80
+      "__id__": 79
     },
-    "duration": 0.3,
+    "duration": 0.1,
     "relativeDuration": false,
     "exitConditionEnabled": true,
     "_exitCondition": 1
@@ -1028,25 +1020,25 @@
     },
     "conditions": [
       {
-        "__id__": 82
+        "__id__": 81
       }
     ],
     "destinationStart": 0,
     "relativeDestinationStart": false,
     "startEventBinding": {
-      "__id__": 83
+      "__id__": 82
     },
     "endEventBinding": {
-      "__id__": 84
+      "__id__": 83
     },
-    "duration": 0.3,
+    "duration": 0.1,
     "relativeDuration": false,
-    "exitConditionEnabled": true,
+    "exitConditionEnabled": false,
     "_exitCondition": 1
   },
   {
     "__type__": "cc.animation.TriggerCondition",
-    "trigger": "Trigger Jummp"
+    "trigger": "Trigger Jump"
   },
   {
     "__type__": "cc.animation.AnimationGraphEventBinding",
@@ -1060,12 +1052,16 @@
     "__type__": "cc.animation.AnimationTransition",
     "__editorExtras__": null,
     "from": {
-      "__id__": 6
-    },
-    "to": {
       "__id__": 22
     },
-    "conditions": [],
+    "to": {
+      "__id__": 18
+    },
+    "conditions": [
+      {
+        "__id__": 85
+      }
+    ],
     "destinationStart": 0,
     "relativeDestinationStart": false,
     "startEventBinding": {
@@ -1074,10 +1070,14 @@
     "endEventBinding": {
       "__id__": 87
     },
-    "duration": 0.3,
+    "duration": 0.1,
     "relativeDuration": false,
-    "exitConditionEnabled": true,
+    "exitConditionEnabled": false,
     "_exitCondition": 1
+  },
+  {
+    "__type__": "cc.animation.TriggerCondition",
+    "trigger": "Trigger Roll"
   },
   {
     "__type__": "cc.animation.AnimationGraphEventBinding",
@@ -1094,10 +1094,10 @@
   },
   {
     "__type__": "cc.animation.TriggerVariable",
-    "_flags": 2
+    "_flags": 0
   },
   {
     "__type__": "cc.animation.TriggerVariable",
-    "_flags": 2
+    "_flags": 0
   }
 ]
