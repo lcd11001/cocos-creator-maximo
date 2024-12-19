@@ -1,0 +1,245 @@
+// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: prefilter-fs
+      pass: bloom-prefilter
+      blendState: &blendState
+        targets:
+        - blend: true
+          blendSrc: one
+          blendDst: zero
+      rasterizerState: &rasterizerState
+        cullMode: none
+      depthStencilState: &depthStencilState
+        depthTest: false
+    - &downsample
+        vert: vs
+        frag: down-sample-fs
+        pass: bloom-downsample0
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &downsample
+        vert: vs
+        frag: down-sample-fs
+        pass: bloom-downsample1
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &downsample
+        vert: vs
+        frag: down-sample-fs
+        pass: bloom-downsample2
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &downsample
+        vert: vs
+        frag: down-sample-fs
+        pass: bloom-downsample3
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &downsample
+        vert: vs
+        frag: down-sample-fs
+        pass: bloom-downsample4
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &downsample
+        vert: vs
+        frag: down-sample-fs
+        pass: bloom-downsample5
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &upsample
+        vert: vs
+        frag: combine-fs
+        pass: bloom-upsample0
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &upsample
+        vert: vs
+        frag: combine-fs
+        pass: bloom-upsample1
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &upsample
+        vert: vs
+        frag: combine-fs
+        pass: bloom-upsample2
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &upsample
+        vert: vs
+        frag: combine-fs
+        pass: bloom-upsample3
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &upsample
+        vert: vs
+        frag: combine-fs
+        pass: bloom-upsample4
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - &upsample
+        vert: vs
+        frag: combine-fs
+        pass: bloom-upsample5
+        blendState: *blendState
+        rasterizerState: *rasterizerState
+        depthStencilState: *depthStencilState
+    - vert: vs
+      frag: combine-fs
+      pass: bloom-combine
+      blendState: *blendState
+      rasterizerState: *rasterizerState
+      depthStencilState: *depthStencilState
+}%
+
+
+CCProgram vs %{
+  precision highp float;
+  
+  #include <input-standard>
+  #include <builtin/uniforms/cc-global>
+  
+  out vec2 v_uv;
+  
+  void main () {
+    StandardVertInput In;
+    CCVertInput(In);
+    CC_HANDLE_GET_CLIP_FLIP(In.position.xy);
+    gl_Position = In.position;
+  
+    v_uv = a_texCoord;
+  }
+}%
+        
+CCProgram prefilter-fs %{
+    precision highp float;
+  
+    in vec2 v_uv;
+  
+    uniform BloomUBO {
+      mediump vec4 texSize;
+    };
+    #pragma rate outputResultMap pass
+    uniform sampler2D outputResultMap;
+  
+    layout(location = 0) out vec4 fragColor;
+  
+    vec3 applyBloomThreshold (vec3 color, float threshold) {
+      float brightness = max(max(color.r, color.g), color.b);
+  
+      // float soft = brightness + texSize.y;
+      // soft = clamp(soft, 0.0, texSize.z);
+      // soft = soft * soft * texSize.w;
+  
+      float soft = 0.;
+  
+      float contribution = max(soft, brightness - threshold);
+      contribution /= max(brightness, 0.00001);
+      return color * contribution;
+    }
+  
+    void main () {
+      fragColor = texture(outputResultMap, v_uv);
+      fragColor.rgb = applyBloomThreshold(fragColor.rgb, texSize.z);
+    }
+}%
+        
+
+
+
+CCProgram down-sample-fs %{
+    precision highp float;
+  
+    in vec2 v_uv;
+  
+    uniform BloomUBO {
+      mediump vec4 texSize;
+    };
+    #pragma rate bloomTexture pass
+    uniform sampler2D bloomTexture;
+    layout(location = 0) out vec4 fragColor;
+
+    #include <./chunks/guassian-blur>
+  
+    void main () {
+      // fragColor = gaussianBlur(texSize.z, v_uv, texSize.xy);
+      vec2 direction = texSize.xy;
+      fragColor = guassianBlurSimple9(v_uv, direction);
+    }
+}%
+        
+
+
+CCProgram up-sample-fs %{
+    precision highp float;
+  
+    #include <cc-global>
+  
+    in vec2 v_uv;
+  
+    uniform BloomUBO {
+      mediump vec4 texSize;
+    };
+    #pragma rate bloomTexture pass
+    uniform sampler2D bloomTexture;
+
+    #include <./chunks/guassian-blur>
+  
+    layout(location = 0) out vec4 fragColor;
+  
+    void main () {
+      // vec2 textureSize = texSize.xy;
+      // fragColor = SampleCatmullRom(bloomTexture, v_uv, textureSize);
+      fragColor =  texture(bloomTexture, v_uv);
+    }
+}%
+        
+
+
+CCProgram combine-fs %{
+    precision highp float;
+  
+    #include <cc-global>
+  
+    in vec2 v_uv;
+  
+    uniform BloomUBO {
+      mediump vec4 texSize;
+    };
+    #pragma rate outputResultMap pass
+    uniform sampler2D outputResultMap;
+    #pragma rate bloomTexture pass
+    uniform sampler2D bloomTexture;
+  
+    layout(location = 0) out vec4 fragColor;
+  
+    void main () {
+      vec4 origin = texture(outputResultMap, v_uv);
+      vec4 bloom = texture(bloomTexture, v_uv);
+  
+      float intensity = texSize.x;
+      float originIntensity = texSize.y;
+
+      origin.rgb = bloom.rgb * texSize.x + max(vec3(0.), origin.rgb * originIntensity);
+      origin.a = 1.;
+  
+      fragColor = origin;
+    }
+}%
+        
+

@@ -1,0 +1,52 @@
+
+// screen position (0-1)
+vec3 screen2WS(vec3 screenPos) {
+  vec4 ndc = vec4(screenPos.xyz * 2. - 1.0, 1.0);
+  vec4 world = cc_matViewProjInv * ndc;
+  world = world / world.w;
+  return world.xyz;
+}
+
+vec3 screen2VS(vec3 screenPos) {
+  vec4 ndc = vec4(screenPos.xyz * 2. - 1.0, 1.0);
+  vec4 world = cc_matProjInv * ndc;
+  world = world / world.w;
+  return world.xyz;
+}
+
+vec3 posWS2screen (vec3 posWS) {
+  vec4 res = cc_matViewProj * vec4(posWS, 1.);
+  res.xyz /= res.w;
+  res.xyz = res.xyz * 0.5 + 0.5;
+  return res.xyz;
+}
+
+vec3 posVS2screen (vec3 posVS) {
+  vec4 res = cc_matProj * vec4(posVS, 1.);
+  res.xyz /= res.w;
+  res.xyz = res.xyz * 0.5 + 0.5;
+  return res.xyz;
+}
+
+float linearizeDepth(float depth) {
+  float z = depth * 2.0 - 1.0;
+  float near = cc_nearFar.x;
+  float far = cc_nearFar.y;
+  return (2.0 * near * far) / (far + near - z * (far - near));    
+}
+
+float linearizeDepth2ScreenDepth(float viewDepth01) {
+  float near = cc_nearFar.x;
+  float far = cc_nearFar.y;
+
+  float viewDepth = -viewDepth01 * far;
+  float z = (2.0 * near * far) / viewDepth;
+  z = (far + near - z) / (far - near);
+  z = (z + 1.) / 2.;
+  return z;
+}
+
+float linearizeDepth01(float depth) {
+  return linearizeDepth(depth) / cc_nearFar.y;
+}
+

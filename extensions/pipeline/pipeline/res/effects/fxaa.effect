@@ -1,0 +1,62 @@
+// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      pass: post-process
+      rasterizerState:
+        cullMode: none
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: one
+          blendDst: zero
+}%
+
+
+CCProgram vs %{
+  #include <./chunks/vert>
+}%     
+
+
+CCProgram fs %{
+  precision highp float;
+
+  #include <builtin/uniforms/cc-global>
+  #include <legacy/output-standard>
+
+  #include <unpack>
+
+  #include <./chunks/fxaa>
+
+  in vec2 v_uv;
+  
+  uniform Params {
+    vec4 texSize;
+  };
+  #pragma rate inputTex pass
+  uniform sampler2D inputTex;
+
+  layout(location = 0) out vec4 fragColor;
+
+  void main () {
+    mediump vec2 v_rgbNW;
+    mediump vec2 v_rgbNE;
+    mediump vec2 v_rgbSW;
+    mediump vec2 v_rgbSE;
+  	mediump vec2 v_rgbM;
+
+    vec2 resolution = texSize.xy;
+    vec2 fragCoord = v_uv * resolution;
+
+    fxaaTexcoords(fragCoord, resolution, v_rgbNW, v_rgbNE, v_rgbSW, v_rgbSE, v_rgbM);
+    fragColor = fxaa(inputTex, fragCoord, resolution, v_rgbNW, v_rgbNE, v_rgbSW, v_rgbSE, v_rgbM);
+  }
+  
+}%
+        

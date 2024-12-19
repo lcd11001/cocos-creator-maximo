@@ -1,0 +1,69 @@
+
+#include <common/math/number>
+
+float Square (float v) {
+  return v * v;
+}
+
+
+/** 
+ * Returns a radial attenuation factor for a point light.  
+ * WorldLightVector is the vector from the position being shaded to the light, divided by the radius of the light. 
+ */
+float radialAttenuationMask(vec3 WorldLightVector)
+{
+	float NormalizeDistanceSquared = dot(WorldLightVector, WorldLightVector);
+	return 1.0 - saturate(NormalizeDistanceSquared);
+}
+float radialAttenuation(vec3 WorldLightVector, float FalloffExponent)
+{
+	// Old (fast, but now we not use the default of 2 which looks quite bad):
+	return pow(radialAttenuationMask(WorldLightVector), FalloffExponent);
+
+	// New (more physically correct but slower and has a more noticable cutoff ring in the dark):
+	// AttenFunc(x) = 1 / (x * x + 1)
+	// derived: InvAttenFunc(y) = sqrtf(1 / y - 1)
+	// FalloffExponent is ignored
+	// the following code is a normalized (scaled and biased f(0)=1 f(1)=0) and optimized
+/*
+	// light less than x % is considered 0
+	// 20% produces a bright sphere, 5 % is ok for performance, 8% looks close to the old one, smaller numbers would be more realistic but then the attenuation radius also should be increased.
+	// we can expose CutoffPercentage later, alternatively we also can compute the attenuation radius from the CutoffPercentage and the brightness
+	const float CutoffPercentage = 5.0f;  
+	    
+	float CutoffFraction = CutoffPercentage * 0.01f;  
+
+	// those could be computed on C++ side
+	float PreCompX = 1.0f - CutoffFraction;
+	float PreCompY = CutoffFraction;
+	float PreCompZ = CutoffFraction / PreCompX;
+
+	return (1 / ( NormalizeDistanceSquared * PreCompX + PreCompY) - 1) * PreCompZ;
+*/
+}
+
+float radialAttenuation(float distSqr, float invRadius)
+{
+	float att = 1. / (distSqr + 1.);
+
+	float LightRadiusMask = Square(saturate(1. - Square(distSqr * (invRadius * invRadius))));
+	att *= LightRadiusMask;
+
+	return att;
+}
+
+/** 
+ * Calculates attenuation for a spot light.
+ * L normalize vector to light. 
+ * SpotDirection is the direction of the spot light.
+ * SpotAngles.x is CosOuterCone, SpotAngles.y is InvCosConeDifference. 
+ */
+float spotAttenuationMask(vec3 L, vec3 SpotDirection, vec2 SpotAngles)
+{
+	return saturate((dot(L, -SpotDirection) - SpotAngles.x) * SpotAngles.y);
+}
+float spotAttenuation(vec3 L, vec3 SpotDirection, vec2 SpotAngles)
+{
+	float ConeAngleFalloff = Square(spotAttenuationMask(L, SpotDirection, SpotAngles));
+	return ConeAngleFalloff;
+}

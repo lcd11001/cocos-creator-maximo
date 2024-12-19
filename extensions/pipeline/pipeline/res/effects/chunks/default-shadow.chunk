@@ -1,0 +1,21 @@
+
+float defaultShadow () {
+  vec3 N = normalize(v_normal);
+  vec3 L = normalize(-cc_mainLitDir.xyz);
+  float NL = max(dot(N, L), 0.0);
+
+  float shadow = 1.;
+
+  #if CC_RECEIVE_SHADOW
+  if (NL > 0.0 && cc_mainLitDir.w > 0.0) {
+    if (cc_shadowLPNNInfo.w > 0.0) {
+        shadow = CCCSMFactorBase(v_position, N, v_shadowBias);
+    } else {
+        shadow = CCShadowFactorBase(CC_SHADOW_POSITION, N, v_shadowBias);
+    }
+  }
+
+  #endif
+
+  return shadow;
+}

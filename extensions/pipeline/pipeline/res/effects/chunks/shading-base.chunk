@@ -1,0 +1,71 @@
+
+vec4 CCCustomShadingBase (StandardSurface s, vec4 shadowPos, out vec3 specular, out float shadow) {
+  // Calculate diffuse & specular
+  vec3 diffuse = s.albedo.rgb * (1.0 - s.metallic);
+ 
+  specular = mix(vec3(0.08 * s.specularIntensity), s.albedo.rgb, s.metallic);
+
+  vec3 position;
+  HIGHP_VALUE_FROM_STRUCT_DEFINED(position, s.position);
+
+  vec3 N = normalize(s.normal);
+  vec3 V = normalize(cc_cameraPos.xyz - position);
+  vec3 L = normalize(-cc_mainLitDir.xyz);
+  float NL = max(dot(N, L), 0.0);
+
+  shadow = 1.0;
+  #if CC_RECEIVE_SHADOW && CC_SHADOW_TYPE == CC_SHADOW_MAP && ENABLE_SHADOW
+    if (NL > 0.0 && cc_mainLitDir.w > 0.0) {
+      if (cc_shadowLPNNInfo.w > 0.0) {
+        #if CC_DIR_LIGHT_SHADOW_TYPE == CC_DIR_LIGHT_SHADOW_CASCADED
+          shadow = CCCSMFactorBase(position, N, s.shadowBias);
+        #endif
+      } else {
+        #if CC_DIR_LIGHT_SHADOW_TYPE == CC_DIR_LIGHT_SHADOW_UNIFORM
+          shadow = CCShadowFactorBase(shadowPos, N, s.shadowBias);
+        #endif
+      }
+    }
+  #endif
+
+  #if CC_USE_LIGHTMAP && !CC_FORWARD_ADD
+    vec3 lightmap = s.lightmap.rgb;
+    #if CC_USE_HDR
+        // convert from standard camera exposure parameters to current exposure value
+        // baked in LDR scene still regarded as exposured with standard camera parameters
+        lightmap.rgb *= cc_exposure.w * cc_exposure.x;
+    #endif
+    vec3 finalColor = diffuse * lightmap.rgb * shadow;
+  #else
+    float NV = max(abs(dot(N, V)), 0.0);
+    specular = BRDFApprox(specular, s.roughness, NV);
+  
+    vec3 H = normalize(L + V);
+    float NH = max(dot(N, H), 0.0);
+    vec3 finalColor = NL * cc_mainLitColor.rgb * cc_mainLitColor.w;
+    vec3 diffuseContrib = diffuse / PI;
+  
+    // Cook-Torrance Microfacet Specular BRDF
+    vec3 specularContrib = specular * CalcSpecular(s.roughness, NH, H, N);
+    vec3 dirlightContrib = (diffuseContrib + specularContrib);
+  
+    dirlightContrib *= shadow;
+    finalColor *= dirlightContrib;
+  #endif
+
+  float fAmb = max(0.5 - N.y * 0.5, 0.001);
+  vec3 ambDiff = mix(cc_ambientSky.rgb, cc_ambientGround.rgb, fAmb);
+    
+  specular = cc_ambientSky.w * specular * s.occlusion;
+
+#if CC_LIGHT_PROBE_ENABLED && CC_USE_LIGHT_PROBE
+  ambDiff = SHEvaluate(N);
+  finalColor += ambDiff.rgb * diffuse * s.occlusion;
+#else
+  finalColor += ambDiff.rgb * cc_ambientSky.w * diffuse * s.occlusion;
+#endif
+
+  finalColor += s.emissive;
+
+  return vec4(finalColor, s.albedo.a);
+}

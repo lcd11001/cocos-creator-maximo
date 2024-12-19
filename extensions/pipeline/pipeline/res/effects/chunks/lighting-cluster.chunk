@@ -1,0 +1,106 @@
+
+#include <./chunks/attenuation>
+
+#define LIGHT_MaxPixelsPerCell 3
+
+vec4 lightingAdd (in StandardSurface s, in vec4 shadowPos) {
+  vec3 finalColor = vec3(0.);
+  
+  vec3 position = s.position;
+
+  vec3 cellCoords = floor((position - light_cluster_BoundsMin.xyz) * light_cluster_CellsCountByBoundsSizeAndPixelsPerCell.xyz);
+  if ((cellCoords.x < 0.) || (cellCoords.y < 0.) || (cellCoords.z < 0.) ||
+      (cellCoords.x > light_cluster_CellsMax.x) || 
+      (cellCoords.y > light_cluster_CellsMax.y) || 
+      (cellCoords.z > light_cluster_CellsMax.z)) {
+  }
+  else {
+    // cell index (mapping from 3d cell coordinates to linear memory)
+    float cellIndex = dot(light_cluster_CellsDot.xyz, cellCoords);
+
+    // convert cell index to uv coordinates
+    float clusterV = floor(cellIndex * light_cluster_TextureSize.y);
+    float clusterU = cellIndex - (clusterV * light_cluster_TextureSize.x);
+    clusterV = (clusterV + 0.5) * light_cluster_TextureSize.z;
+
+    // Calculate diffuse & specular
+    vec3 diffuse = s.albedo.rgb * (1.0 - s.metallic);
+    vec3 specular = mix(vec3(0.04), s.albedo.rgb, s.metallic);
+    vec3 diffuseContrib = diffuse / PI;
+
+    vec3 N = normalize(s.normal);
+    vec3 V = normalize(cc_cameraPos.xyz - position);
+    float NV = max(abs(dot(N, V)), 0.0);
+    specular = BRDFApprox(specular, s.roughness, NV);
+
+    #if LIGHT_MaxPixelsPerCell
+    for (float pixelIndex = 0.5; pixelIndex < float(LIGHT_MaxPixelsPerCell); pixelIndex++) {
+      vec4 lightIndices = texture(light_cluster_Texture, vec2(light_cluster_TextureSize.y * (clusterU + pixelIndex), clusterV));
+      vec4 indices = lightIndices * 255.0;
+
+      for (int e = 0; e < 4; e++) {
+        float clusterIndex = indices[e];
+        if (clusterIndex <= 0.0) {
+          break;
+        }
+
+        // finalColor += 0.1;
+
+        float iblV = (clusterIndex + 0.5) * light_cluster_InfoTextureInvSize.y;
+
+        vec4 lightPos = texture(light_cluster_InfoTexture, vec2(0.5 * light_cluster_InfoTextureInvSize.x, iblV));
+        vec4 lightColor = texture(light_cluster_InfoTexture, vec2(1.5 * light_cluster_InfoTextureInvSize.x, iblV));
+        vec4 lightSizeRangeAngle = texture(light_cluster_InfoTexture, vec2(2.5 * light_cluster_InfoTextureInvSize.x, iblV));
+        vec4 lightDir = texture(light_cluster_InfoTexture, vec2(3.5 * light_cluster_InfoTextureInvSize.x, iblV));
+
+        vec3 SLU = lightPos.xyz - position;
+        vec3 SL = normalize(SLU);
+        vec3 SH = normalize(SL + V);
+        float SNL = max(dot(N, SL), 0.0);
+        float SNH = max(dot(N, SH), 0.0);
+
+        float distSqr = dot(SLU, SLU);
+        float litRadius = lightSizeRangeAngle.x;
+        // float litRadiusSqr = litRadius * litRadius;
+        // float illum = litRadiusSqr / max(litRadiusSqr, distSqr);
+        // float attRadiusSqrInv = 1.0 / max(lightSizeRangeAngle.y, 0.01);
+        // attRadiusSqrInv *= attRadiusSqrInv;
+        // float att = GetDistAtt(distSqr, attRadiusSqrInv);
+        vec3 lspec = specular * CalcSpecular(s.roughness, SNH, SH, N);
+
+	      float invRadius = 1. / litRadius;
+
+        // Sphere falloff (technically just 1/d2 but this avoids inf)
+        float att = radialAttenuation(distSqr, invRadius);
+
+        if (lightPos.w > 0.0) {
+          float cosInner = max(dot(-lightDir.xyz, SL), 0.01);
+          float cosOuter = lightSizeRangeAngle.y;
+          float litAngleScale = 1.0 / max(0.001, cosInner - cosOuter);
+          float litAngleOffset = -cosOuter * litAngleScale;
+          // att *= GetAngleAtt(SL, -lightDir.xyz, litAngleScale, litAngleOffset);
+
+          att *= spotAttenuation(SLU / sqrt(distSqr), lightDir.xyz, lightSizeRangeAngle.yz);
+        }
+
+        // float shadow = 1.0;
+        // #if CC_RECEIVE_SHADOW  && CC_SHADOW_TYPE == CC_SHADOW_MAP
+        //   if (cc_lightPos[i].w > 0.0 && cc_lightSizeRangeAngle[i].w > 0.0) {
+        //     shadow = CCSpotShadowFactorBase(shadowPos, position, s.shadowBias);
+        //   }
+        // #endif
+        // lightColor *= shadow;
+
+        finalColor += SNL * lightColor.xyz * lightColor.w * att * (diffuseContrib + lspec);
+      }
+
+      // end of the cell array
+      if ((pixelIndex + 1.) > light_cluster_CellsCountByBoundsSizeAndPixelsPerCell.w) {
+        break;
+      }
+    }
+    #endif 
+  }
+
+  return vec4(finalColor, 1.);
+}

@@ -1,0 +1,69 @@
+// Effect Syntax Guide: https://docs.cocos.com/creator/manual/zh/shader/index.html
+
+CCEffect %{
+  techniques:
+  - name: opaque
+    passes:
+    - vert: legacy/main-functions/general-vs:vert # builtin header
+      frag: unlit-fs
+      properties: &props
+        mainColor:      { value: [1, 1, 1, 1], editor: { type: color } }
+        envMap: { value: white }
+  - name: transparent
+    passes:
+    - vert: general-vs:vert # builtin header
+      frag: unlit-fs
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendSrcAlpha: src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      properties: *props
+}%
+
+CCProgram unlit-fs %{
+  precision highp float;
+  #include <legacy/output>
+  #include <common/data/unpack>
+  #include <builtin/uniforms/cc-environment>
+
+  in vec2 v_uv;
+  in vec3 v_position;
+
+  uniform Constant {
+    vec4 mainColor;
+  };
+
+  uniform samplerCube envMap;
+
+  #pragma define CC_PIPELINE_TYPE_FORWARD 0
+  #pragma define CC_PIPELINE_TYPE_DEFERRED 1
+  #pragma define-meta CC_PIPELINE_TYPE range([0, 1])
+  #pragma define-meta CC_FORCE_FORWARD_SHADING
+
+
+  #if CC_PIPELINE_TYPE == CC_PIPELINE_TYPE_DEFERRED                
+    layout(location = 0) out vec4 fragColor0;
+    layout(location = 1) out vec4 fragColor1;
+    layout(location = 2) out vec4 fragColor2;
+    layout(location = 3) out vec4 fragColor3;
+
+    void main () {
+      fragColor0 = vec4(vec3(0.), 1.);
+      fragColor1 = vec4(vec3(0.), 1.);
+
+      vec4 col = texture(envMap, normalize(v_position));
+      col.rgb = unpackRGBE(col);
+      fragColor2 = vec4(col.rgb * mainColor.rgb, 0.);
+      fragColor3 = vec4(v_position, 0.);
+    }
+  #else
+    layout(location = 0) out vec4 fragColor0;
+
+    void main () {
+      fragColor0 = vec4(vec3(0.), 1.);
+    }
+  #endif
+}%

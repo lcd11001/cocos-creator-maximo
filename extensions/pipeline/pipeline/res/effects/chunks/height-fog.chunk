@@ -1,0 +1,79 @@
+
+const float FLT_EPSILON = 0.001;
+const float FLT_EPSILON2 = 0.01;
+#define pow2(x) (pow(2., x))
+
+// Calculate the line integral of the ray from the camera to the receiver position through the fog density function
+// The exponential fog density function is d = GlobalDensity * exp(-HeightFalloff * z)
+float calculateLineIntegralShared(float fogHeightFalloff, float rayDirectionZ, float rayOriginTerms)
+{
+	float Falloff = max(-127.0, fogHeightFalloff * rayDirectionZ);    
+	float LineIntegral = ( 1.0 - exp2(-Falloff) ) / Falloff;
+	float LineIntegralTaylor = log(2.0) - ( 0.5 * pow2( log(2.0) ) ) * Falloff;		
+	
+	return rayOriginTerms * ( abs(Falloff) > FLT_EPSILON2 ? LineIntegral : LineIntegralTaylor );
+}
+
+vec4 calculateHeightFog(vec3 posToCamera) {
+    float ExcludeDistance = 0.;
+
+    float MinFogOpacity = fog_ColorParameters.w;
+	float MaxWorldObserverHeight = fog_Parameters.z;
+
+	vec3 View_WorldCameraOrigin = cc_cameraPos.xyz;
+	vec3 WorldObserverOrigin = vec3(View_WorldCameraOrigin.x, min(View_WorldCameraOrigin.y, MaxWorldObserverHeight), View_WorldCameraOrigin.z); 
+
+	vec3 CameraToReceiver = posToCamera;
+	CameraToReceiver.y += View_WorldCameraOrigin.y - WorldObserverOrigin.y; 
+	float CameraToReceiverLengthSqr = dot(CameraToReceiver, CameraToReceiver);
+	float CameraToReceiverLengthInv = 1.0 / sqrt(CameraToReceiverLengthSqr);
+	float CameraToReceiverLength = CameraToReceiverLengthSqr * CameraToReceiverLengthInv;
+	vec3 CameraToReceiverNormalized = CameraToReceiver * CameraToReceiverLengthInv;
+
+	float rayOriginTerms = fog_Parameters.x;
+	float rayOriginTermsSecond = fog_Parameters2.x;
+	float RayLength = CameraToReceiverLength;
+	float rayDirectionZ = CameraToReceiver.y;
+
+	// Factor in StartDistance
+	ExcludeDistance = max(ExcludeDistance, fog_Parameters.w);
+
+	if (ExcludeDistance > 0.)
+	{
+		float ExcludeIntersectionTime = ExcludeDistance * CameraToReceiverLengthInv;
+		float CameraToExclusionIntersectionZ = ExcludeIntersectionTime * CameraToReceiver.y;
+		float ExclusionIntersectionZ = WorldObserverOrigin.y + CameraToExclusionIntersectionZ;
+		float ExclusionIntersectionToReceiverZ = CameraToReceiver.y - CameraToExclusionIntersectionZ;
+
+		// Calculate fog off of the ray starting from the exclusion distance, instead of starting from the camera
+		RayLength = (1.0 - ExcludeIntersectionTime) * CameraToReceiverLength;
+		rayDirectionZ = ExclusionIntersectionToReceiverZ;
+
+		float Exponent = max(-127.0, fog_Parameters.y * (ExclusionIntersectionZ - fog_Parameters3.y));
+		rayOriginTerms = fog_Parameters3.x * exp2(-Exponent);
+		
+		float ExponentSecond = max(-127.0, fog_Parameters2.y * (ExclusionIntersectionZ - fog_Parameters2.w)); 	 
+		rayOriginTermsSecond = fog_Parameters2.z * exp2(-ExponentSecond);
+	}
+
+	// Calculate the "shared" line integral (this term is also used for the directional light inscattering) by adding the two line integrals together (from two different height falloffs and densities)
+	float ExponentialHeightLineIntegralShared = calculateLineIntegralShared(fog_Parameters.y, rayDirectionZ, rayOriginTerms) + calculateLineIntegralShared(fog_Parameters2.y, rayDirectionZ, rayOriginTermsSecond);
+
+	float ExponentialHeightLineIntegral = ExponentialHeightLineIntegralShared * RayLength;
+
+	vec3 InscatteringColor = fog_ColorParameters.xyz;
+	vec3 DirectionalInscattering = vec3(0.);
+
+	// Calculate the amount of light that made it through the fog using the transmission equation
+	float ExpFogFactor = max(saturate(exp2(-ExponentialHeightLineIntegral)), MinFogOpacity);
+
+	// FLATTEN
+	if (fog_Parameters3.w > 0. && CameraToReceiverLength > fog_Parameters3.w) {
+		ExpFogFactor = 1.;
+		DirectionalInscattering = vec3(0.);
+	}
+
+    vec3 FogColor = (InscatteringColor) * (1. - ExpFogFactor) + DirectionalInscattering;
+
+	return vec4(FogColor, ExpFogFactor);
+}

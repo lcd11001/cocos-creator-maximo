@@ -1,0 +1,51 @@
+// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      pass: post-process
+      rasterizerState:
+        cullMode: none
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: one
+          blendDst: zero
+}%
+
+
+CCProgram vs %{
+  #include <./chunks/vert>
+}%     
+
+
+CCProgram fs %{
+  precision highp float;
+
+  #include <builtin/uniforms/cc-global>
+  #include <legacy/output-standard>
+
+  #include <unpack>
+
+  in vec2 v_uv;
+  
+  uniform PostUBO {
+    vec4 screenParams;
+  };
+  #pragma rate outputResultMap pass
+  uniform sampler2D outputResultMap;
+
+  layout(location = 0) out vec4 fragColor;
+
+  void main () {
+    vec2 uv = v_uv * screenParams.xy + screenParams.zw;
+    fragColor = texture(outputResultMap, uv);
+  }
+  
+}%
+        

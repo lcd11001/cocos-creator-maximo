@@ -1,0 +1,79 @@
+
+float raySphere (vec3 o, vec3 d, vec3 center, float radius) {
+  float rSq = radius * radius;
+  vec3 e = center - o;
+  float eSq = dot(e, e);
+
+  float aLength = dot(e, d); // assume ray direction already normalized
+  float fSq = rSq - (eSq - aLength * aLength);
+  if (fSq < 0.) { return 0.; }
+
+  float f = sqrt(fSq);
+  float t = eSq < rSq ? aLength + f : aLength - f;
+  if (t < 0.) { return 0.; }
+  return t;
+}
+
+
+vec4 fragTextureLod2 (samplerCube tex, vec3 coord, float lod) {
+  #if __VERSION__ < 130
+    #ifdef GL_EXT_shader_texture_lod
+      return textureCubeLodEXT(tex, coord, lod);
+    #else
+      return textureCube(tex, coord, lod); // fallback to bias
+    #endif
+  #else
+    return textureLod(tex, coord, lod);
+  #endif
+}
+
+void blendReflection (inout vec3 color, inout float blendFactor, samplerCube cubemap, float mip, in StandardSurface s, vec3 ref, vec4 posRadius, vec3 specular) {
+  float t = raySphere(s.position, ref, posRadius.xyz, posRadius.w);
+  
+  float alpha = 0.;
+  if (t > 0.) {
+    vec3 intersectionPos = s.position + ref * t;
+    ref = normalize(intersectionPos - posRadius.xyz);
+
+    float normalizedDistanceToCapture = length(s.position - posRadius.xyz) / posRadius.w;
+    alpha = 1.0 - smoothstep(.6, 1., normalizedDistanceToCapture);
+  }
+  
+  vec4 env = fragTextureLod2(cubemap, ref, mip);
+  env.rgb = unpackRGBE(env);
+
+  color += env.rgb * specular * alpha * blendFactor;
+
+  blendFactor = blendFactor * (1. - alpha);
+}
+
+
+vec3 lightingIbl (in StandardSurface s, vec3 specular) {
+  vec3 V = normalize(cc_cameraPos.xyz - s.position);
+  float mip = s.roughness * (cc_ambientGround.w - 1.0);
+
+  vec3 ref = normalize(reflect(-V, s.normal));
+
+  vec3 color = vec3(0.);
+  float blendFactor = 1.;
+  
+  #if REFLECTION_PROBE_COUNT > 0
+    blendReflection(color, blendFactor, light_ibl_Texture0, mip, s, ref, light_ibl_posRange0, specular);
+  #endif
+
+  #if REFLECTION_PROBE_COUNT > 1
+    blendReflection(color, blendFactor, light_ibl_Texture1, mip, s, ref, light_ibl_posRange1, specular);
+  #endif
+
+  #if REFLECTION_PROBE_COUNT > 2
+   blendReflection(color, blendFactor, light_ibl_Texture2, mip, s, ref, light_ibl_posRange2, specular);
+  #endif
+
+  #if CC_USE_IBL
+    vec4 skyEnv = fragTextureLod2(cc_environment, ref, mip);
+    skyEnv.rgb = unpackRGBE(skyEnv);
+    color += skyEnv.rgb * blendFactor * specular * 0.2;
+  #endif
+
+  return color;
+}
