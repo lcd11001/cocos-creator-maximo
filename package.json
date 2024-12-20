@@ -3,9 +3,5 @@
   "uuid": "499d518e-3db6-4515-b370-3e4b0d03fcc2",
   "creator": {
     "version": "3.8.4"
-  },
-  "devDependencies": {
-    "eslint": "^8.28.0",
-    "eslint-plugin-react": "^7.31.11"
   }
 }
